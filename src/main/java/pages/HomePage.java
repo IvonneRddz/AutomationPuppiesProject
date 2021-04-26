@@ -3,6 +3,7 @@ package pages;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -21,6 +22,18 @@ public class HomePage {
 	}
 
 	
+	public void highLighterMethod(By LocatorValue){
+		WebElement element= driver.findElement(LocatorValue);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].setAttribute('style', 'border: 2px solid red;');", element);
+	}
+	
+	
+	public void highLighterMethod(WebElement element){
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].setAttribute('style', 'border: 2px solid red;');", element);
+	}
+	
 	public void navigate(String value) {
 		driver.navigate().to(value);
 		System.out.println("Step Description - Go to Puppy site");
@@ -28,6 +41,7 @@ public class HomePage {
 	
 	
 	public void paginationNext() {
+			highLighterMethod(paginationNext);
 			driver.findElement(paginationNext).click();
 			System.out.println("Step Description - Next button was clicked");
 	}
@@ -35,17 +49,20 @@ public class HomePage {
 	
 	public void selectPuppy(int indice) {
 			By btnViewDetails = By.xpath("(//input[contains(@value,'View')])[" + indice + "]");
+			highLighterMethod(btnViewDetails);
 			driver.findElement(btnViewDetails).click();
 			System.out.println("Step Description - One Puppy was selected");
 	}
-	
-	
+        
+
 	public String getMnsThxForAddopt() {
+		highLighterMethod(mnsThxForAddopt);
 		return driver.findElement(mnsThxForAddopt).getText();
 	}
 	
 	
 	public String getMnsCarisEmpty() {
+		highLighterMethod(mnsEmptyCar);
 		return driver.findElement(mnsEmptyCar).getText();
 	}
 
@@ -70,8 +87,13 @@ public class HomePage {
 			By puppyBreed = By.xpath("//*[contains(text(),'"+ val2 +"')]");
 			By puppySex = By.xpath(" (//*[contains(text(),'"+ val3 +"')])[" + indice + "]");
 			
+			highLighterMethod(puppyName);
 			Assert.assertEquals(val1,driver.findElement(puppyName).getText());
+			
+			highLighterMethod(puppyBreed);
 			Assert.assertEquals(val2,driver.findElement(puppyBreed).getText());
+			
+			highLighterMethod(puppySex);
 			Assert.assertEquals(val3,driver.findElement(puppySex).getText());
 			
 			System.out.println("Step Description - Verified Puppy Details");
@@ -84,6 +106,7 @@ public class HomePage {
 	            System.out.println("Step Description - Verified Puppies views per page");
 	            
 	            for (WebElement element : elements) { 
+	            	highLighterMethod(element);
 	            	System.out.println("Puppy: " + element.getText());
 	            }
 	           
@@ -111,7 +134,10 @@ public class HomePage {
 			for (int i = 0; i < list.size(); i++) {
 				String value = list.get(i);
 				By menuOption = By.xpath("//a[contains(text(),'"+value+"')]");
+				
+				highLighterMethod(menuOption);
 				Assert.assertEquals(list.get(i),driver.findElement(menuOption).getText());
+				
 				options += list.get(i) + ",";
 			}
 			System.out.println("Expected result: " + options +" Actual result: " + list);
